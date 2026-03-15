@@ -1,33 +1,113 @@
-﻿@{
-    Layout = null;
+﻿@model List<InternetShop.Models.Product>
+
+@{
+    Layout = "_Layout";
 }
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title>Каталог товаров</title>
-</head>
-<body>
-    <h1>Наши товары</h1>
+<h2>Наши товары</h2>
 
-    <h2>Список товаров:</h2>
-    <ul>
-        <li>Здесь може быт ваш товар 00 - 0000 руб.</li>
-        <li>Здесь може быт ваш товар 00 - 0000 руб.</li>
-        <li>Здесь може быт ваш товар 00 - 0000 руб.</li>
-        <li>Здесь може быт ваш товар 00 - 0000 руб.</li>
-        <li>Здесь може быт ваш товар 00 - 0000 руб.</li>
-    </ul>
+<div style="margin-bottom: 20px; padding: 15px; background-color: #f5f5f5; border-radius: 5px;">
+    <form method="get" action="/Home/Products">
+        <label for="search">Поиск по названию:</label>
+        <input type="text" id="search" name="search" placeholder="Введите название товара..."
+               value="@Context.Request.Query["search"]" style="margin: 0 10px; padding: 5px; width: 300px;" />
+        <button type="submit" style="padding: 5px 15px; background-color: blue; color: white; border: none; border-radius: 3px; cursor: pointer;">Найти</button>
+    </form>
+</div>
 
-    <hr />
+<div>
+    @{
+        var searchTerm = Context.Request.Query["search"].ToString().ToLower();
+        var filteredProducts = string.IsNullOrEmpty(searchTerm)
+            ? Model
+            : Model.Where(p => p.Name.ToLower().Contains(searchTerm)).ToList();
+    }
 
-    <h3>Навигация:</h3>
-    <ul>
-        <li><a href="/">Главная</a></li>
-        <li><a href="/Home/Products">Товары</a></li>
-    </ul>
+    @if (filteredProducts.Any())
+    {
+        <style>
+                .product-table {
+                    width: 100%;
+                    border-collapse: collapse;
+                    margin: 20px 0;
+                    font-family: Arial, sans-serif;
+                    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+                }
+            
+                    .product-table th {
+                        background-color: blue;
+                        color: white;
+                        font-weight: bold;
+                        padding: 12px;
+                        text-align: left;
+                        border: 1px solid white;
+                    }
+            
+                    .product-table td {
+                        padding: 10px 12px;
+                        border: 1px solid white;
+                        text-align: left;
+                    }
+            
+                    .product-table tr:nth-child(even) {
+                        background-color: white;
+                    }
+            
+                    .product-table tr:hover {
+                        background-color: white;
+                    }
+            
+                    .product-table th:nth-child(1), .product-table td:nth-child(1) {
+                        width: 10%;
+                    }
+                    .product-table th:nth-child(2), .product-table td:nth-child(2) {
+                        width: 30%;
+                    }
+                    .product-table th:nth-child(3), .product-table td:nth-child(3) {
+                        width: 15%;
+                    }
+                    .product-table th:nth-child(4), .product-table td:nth-child(4) {
+                        width: 45%;
+                    }
+        </style>
 
-    <p><a href="/">Вернуться на главную</a></p>
-</body>
-</html>
+        <table class="product-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Описание</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var product in filteredProducts)
+                {
+                    <tr>
+                        <td>@product.Id</td>
+                        <td><strong>@product.Name</strong></td>
+                        <td style="color: blue; font-weight: bold;">@product.Price.ToString("C")</td>
+                        <td>@product.Description</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <div style="padding: 20px; background-color: white; border: 1px solid white; border-radius: 5px; color: red">
+            <p style="margin: 0;"><strong>Товары не найдены.</strong> Попробуйте изменить параметры поиска.</p>
+        </div>
+    }
+</div>
+
+<div style="margin-top: 20px; padding: 10px; background-color: white; border-radius: 5px;">
+    <p style="margin: 0;">
+        <strong>Всего товаров:</strong> @Model.Count
+        @if (!string.IsNullOrEmpty(Context.Request.Query["search"]))
+        {
+            <span> | <strong>Найдено:</strong> @filteredProducts.Count</span>
+            <span> | <a href="/Home/Products" style="color: blue;">Сбросить поиск</a></span>
+        }
+    </p>
+</div>

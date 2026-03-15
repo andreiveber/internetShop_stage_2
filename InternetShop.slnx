@@ -1,3 +1,7 @@
 <Solution>
+  <Folder Name="/Элементы решения/">
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+  </Folder>
   <Project Path="InternetShop/InternetShop.csproj" />
 </Solution>
