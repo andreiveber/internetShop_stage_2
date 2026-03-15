@@ -1,5 +1,15 @@
 # Интернет-магазин (учебный проект) - Этап 2
 
+![Описание](https://github.com/andreiveber/internetShop_stage_2/blob/main/1.jpg?raw=true)
+
+![Описание](https://github.com/andreiveber/internetShop_stage_2/blob/main/2.jpg?raw=true)
+
+![Описание](https://github.com/andreiveber/internetShop_stage_2/blob/main/3.jpg?raw=true)
+
+![Описание](https://github.com/andreiveber/internetShop_stage_2/blob/main/4.jpg?raw=true)
+
+![Описание](https://github.com/andreiveber/internetShop_stage_2/blob/main/5.jpg?raw=true)
+
 ## Описание проекта
 
 На данном этапе реализована структура с макетом, моделью данных, поиском и страницей контактов для демонстрации работы MVC.
